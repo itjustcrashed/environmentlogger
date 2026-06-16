@@ -19,7 +19,8 @@ As more projects written in Swift target non-Apple operating systems,
 ## Configuration
 
 EnvironmentLogger is configured using two variables:
- * `LOG_LEVEL`: The log level to print logs from. Can be `trace`, `debug`, ``
+ * `LOG_LEVEL`: The level to print logs from. This can be `trace`, `debug`, `info`, `warning`, or `error` (default).
+ * `LOG_MODE`: The mode to print logs in. This can be `pretty` (default), `timed`, or `full`.
 
 [apple-log-sys]: https://developer.apple.com/documentation/os/logging
 [env_logger]: https://crates.io/crates/env_logger
