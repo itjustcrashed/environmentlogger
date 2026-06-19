@@ -1,9 +1,16 @@
-// swift-tools-version: 6.3
+// swift-tools-version: 6.1
 
 import PackageDescription
 
 let package = Package(
   name: "EnvironmentLogger",
+  platforms: [
+    .iOS(.v14),
+    .macOS(.v11),
+    .tvOS(.v14),
+    .watchOS(.v7),
+    .visionOS(.v1),
+  ],
   products: [
     .library(
       name: "EnvironmentLogger",

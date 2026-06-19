@@ -5,7 +5,7 @@ import Testing
 @Suite("Logging tests", .serialized)
 struct LoggingTests {
   func log(mode: String) {
-    #if os(anyAppleOS)
+    #if canImport(os.log)
       print(
         """
         Running on an Apple operating system. Log messages will be routed to the unified logging \

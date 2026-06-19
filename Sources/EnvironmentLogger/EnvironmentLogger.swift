@@ -1,22 +1,24 @@
 import Foundation
 
-#if canImport(OSLog)
-  import OSLog
+#if canImport(os.log)
+  import os.log
 #endif
 
 /// A logging system that is configured via environment variables.
 ///
 /// - Note: On Apple operating systems, all log messages are immediately routed to the [unified
 /// logging system](https://developer.apple.com/documentation/os/logging), and thus are not printed
-/// to `stderr` as they are on all other supported operating systems.
+/// to `stderr` as they would be on all other supported operating systems.
 public struct EnvironmentLogger {
-  #if !os(anyAppleOS)
+  #if canImport(os.log)
+    let logger: Logger
+  #else
     let level: LogLevel
     let mode: LogMode
-  #endif
 
-  let subsystem: String
-  let category: String
+    let subsystem: String
+    let category: String
+  #endif
 
   /// Create a new logger from the environment.
   /// - Parameter environment: The environment to read variables from.
@@ -27,35 +29,34 @@ public struct EnvironmentLogger {
     subsystem: String,
     category: String
   ) {
-    #if !os(anyAppleOS)
+    #if canImport(os.log)
+      self.logger = Logger(subsystem: subsystem, category: category)
+    #else
       self.level = LogLevel(environment["LOG_LEVEL"])
       self.mode = LogMode(environment["LOG_MODE"])
-    #endif
 
-    self.subsystem = subsystem
-    self.category = category
+      self.subsystem = subsystem
+      self.category = category
+    #endif
   }
 
   /// Write a log message to the console.
   /// - Parameter level: The level to log the message at.
   /// - Parameter message: The string to log.
   public func log(atLevel level: LogLevel, _ message: String) {
-    #if canImport(OSLog)
-      let log = OSLog(subsystem: subsystem, category: category)
-
-      let type: OSLogType
+    #if canImport(os.log)
       switch level {
-      case .trace, .debug:
-        type = .debug
+      case .trace:
+        logger.trace("\(message))")
+      case .debug:
+        logger.debug("\(message)")
       case .info:
-        type = .info
+        logger.info("\(message)")
       case .warning:
-        type = .default
+        logger.warning("\(message)")
       case .error:
-        type = .error
+        logger.error("\(message)")
       }
-
-      os_log("%{public}@", log: log, type: type, message)
     #else
       guard level.rawValue >= self.level.rawValue else {
         return
@@ -134,7 +135,7 @@ public struct EnvironmentLogger {
   }
 }
 
-#if !os(anyAppleOS)
+#if !canImport(os.log)
   extension EnvironmentLogger {
     public enum LogLevel: UInt8 {
       /// A level that includes granular details of execution.

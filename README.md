@@ -12,7 +12,7 @@ The framework is supported on iOS, macOS, watchOS, tvOS, visionOS, GNU/Linux, mu
 > The logger is routed to stderr on non-Apple operating systems.
 
 > [!IMPORTANT]
-> The logger is routed directly to the [unified logging system][apple-log-sys] on all Apple operating systems (`anyAppleOS`).
+> The logger is routed directly to the [unified logging system][apple-log-sys] on all Apple operating systems (or anywhere that `os.log` can be imported).
 
 ## Why This Framework Exists
 
@@ -23,6 +23,10 @@ As more projects written in Swift target non-Apple operating systems,
 EnvironmentLogger is configured using two variables:
  * `LOG_LEVEL`: The level to print logs from. This can be `trace`, `debug`, `info`, `warning`, or `error` (default).
  * `LOG_MODE`: The mode to print logs in. This can be `pretty` (default), `timed`, or `full`.
+
+## Attributions
+
+This library was created partially using Google Gemini to summarize documentation of the APIs in Foundation.
 
 [apple-log-sys]: https://developer.apple.com/documentation/os/logging
 [env_logger]: https://crates.io/crates/env_logger

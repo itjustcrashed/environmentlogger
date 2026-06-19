@@ -1,6 +1,6 @@
 import Foundation
 
-#if !os(anyAppleOS)
+#if !canImport(os.log)
   nonisolated(unsafe) var errorOutputStream = ErrorOutputStream()
 
   struct ErrorOutputStream: TextOutputStream {
