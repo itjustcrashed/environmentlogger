@@ -135,62 +135,62 @@ public struct EnvironmentLogger {
   }
 }
 
-#if !canImport(os.log)
-  extension EnvironmentLogger {
-    public enum LogLevel: UInt8 {
-      /// A level that includes granular details of execution.
-      ///
-      /// Trace logs are extremely specific information that can help developers understand exactly
-      /// what an application is doing.
-      ///
-      /// - Important: This level also includes logs from the ``debug``, ``info``, ``warning``, and ``error`` levels.
-      case trace = 0
-      /// A level that includes information that is useful while debugging an issue.
-      ///
-      /// Debug logs are used when actively fixing an issue in an application. They are only
-      /// available in `DEBUG` configurations, which can be enabled by passing `-D DEBUG` to `swiftc`
-      /// when not using the Swift Package Manager or Xcode.
-      ///
-      /// ```swift
-      /// #if DEBUG
-      ///   logger.log(.debug, "Button clicked!")
-      /// #endif
-      /// // ...
-      /// ```
-      ///
-      /// - Important: This level also includes logs from the ``info``, ``warning``, and ``error`` levels.
-      case debug
-      /// A level that includes general state changes and important information.
-      ///
-      /// - Important: This level also includes logs from the ``warning`` and ``error`` levels.
-      case info
-      /// A level that includes potential issues that don't cause immediate issues.
-      ///
-      /// - SeeAlso: This level also includes logs from the ``error`` level.
-      case warning
-      /// A level that includes unexpected behavior that causes immediate issues.
-      case error
+extension EnvironmentLogger {
+  public enum LogLevel: UInt8 {
+    /// A level that includes granular details of execution.
+    ///
+    /// Trace logs are extremely specific information that can help developers understand exactly
+    /// what an application is doing.
+    ///
+    /// - Important: This level also includes logs from the ``debug``, ``info``, ``warning``, and ``error`` levels.
+    case trace = 0
+    /// A level that includes information that is useful while debugging an issue.
+    ///
+    /// Debug logs are used when actively fixing an issue in an application. They are only
+    /// available in `DEBUG` configurations, which can be enabled by passing `-D DEBUG` to `swiftc`
+    /// when not using the Swift Package Manager or Xcode.
+    ///
+    /// ```swift
+    /// #if DEBUG
+    ///   logger.log(.debug, "Button clicked!")
+    /// #endif
+    /// // ...
+    /// ```
+    ///
+    /// - Important: This level also includes logs from the ``info``, ``warning``, and ``error`` levels.
+    case debug
+    /// A level that includes general state changes and important information.
+    ///
+    /// - Important: This level also includes logs from the ``warning`` and ``error`` levels.
+    case info
+    /// A level that includes potential issues that don't cause immediate issues.
+    ///
+    /// - SeeAlso: This level also includes logs from the ``error`` level.
+    case warning
+    /// A level that includes unexpected behavior that causes immediate issues.
+    case error
 
-      /// Match a log level from a raw enviroment variable.
-      init(_ string: consuming String?) {
-        switch string {
-        case "trace":
-          self = .trace
-        case "debug":
-          self = .debug
-        case "info":
-          self = .info
-        case "warning":
-          self = .warning
-        case "error":
-          self = .error
-        default: self = .error
-        }
+    /// Match a log level from a raw enviroment variable.
+    init(_ string: consuming String?) {
+      switch string {
+      case "trace":
+        self = .trace
+      case "debug":
+        self = .debug
+      case "info":
+        self = .info
+      case "warning":
+        self = .warning
+      case "error":
+        self = .error
+      default: self = .error
       }
-
     }
-  }
 
+  }
+}
+
+#if !canImport(os.log)
   extension EnvironmentLogger {
     public enum LogMode {
       case pretty
